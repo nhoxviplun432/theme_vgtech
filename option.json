@@ -1,0 +1,31 @@
+{
+    "key" : "d1de1c46f3ea8da999f8329c143b6b434891f656565fea09a2af0de633897be3",
+    "admin" : "https://admin.vungtinhthuc.vn/",
+    "aff" : "https://admin.vungtinhthuc.vn/api/vgtech/register",
+    "type": "tracuu",
+    "product" : {
+        "hmd" : {
+            "title" : "Human Design",
+            "url" : "api/vgtech/download-pdf",
+            "free" : "HMD-FREE",
+            "pro" : "HMD-PRO",
+            "type" : "dflip",
+            "audio" : "public/media/audio_hmd.mp3"
+        },
+        "tsh" : {
+            "title" : "Thần số học",
+            "url" : "api/vgtech/download-pdf-tsh",
+            "free" : "TSH-FREE",
+            "pro" : "TSH-PRO",
+            "type" : "dflip",
+            "audio" : "public/media/audio_tsh.mp3"
+        },
+        "nls" : {
+            "title" : "Năng lượng số",
+            "url" : "api/vgtech/download-pdf-nls",
+            "free" : "NLS-FREE",
+            "pro" : "NLS-PRO",
+            "type" : "dflip"
+        }
+    }
+}
