@@ -3,6 +3,10 @@
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+#swup{
+  min-height: 86vh;
+}
 /* .navbar .nav-caret {
   line-height: 1;
   border: 0;
