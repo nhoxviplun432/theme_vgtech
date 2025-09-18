@@ -1,0 +1,100 @@
+/* Tuỳ chọn: logo nhỏ gọn hơn ở mobile */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* .navbar .nav-caret {
+  line-height: 1;
+  border: 0;
+  background: transparent;
+} */
+
+/* icon mặc định */
+.navbar-nav .nav-vgtech .bi {
+  display: inline-block;
+  transition: transform .25s ease ;
+  transform: rotate(0deg) !important;
+}
+
+button.nav-vgtech{
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  background: transparent;
+  color: var(--e-global-color-primary);
+}
+
+/* khi menu mở (Bootstrap tự set aria-expanded="true" trên button) */
+.navbar-nav .nav-vgtech[aria-expanded="true"] .bi {
+  transform: rotate(180deg) !important;
+}
+
+/* Dropdown menu style */
+.navbar-nav .dropdown-menu {
+  border-radius: .5rem;
+  border: 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,.1);
+  animation: fadeIn .25s ease;
+  margin-top: .5rem;
+}
+
+/* Hover item đẹp hơn */
+.navbar-nav .dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: var(--bs-primary);
+}
+
+/* Canh hàng ngang link + caret (ở cấp 0) */
+.navbar-nav .nav-item > .d-flex .nav-link {
+  padding-right: 0;
+}
+
+.navbar .custom-logo {
+    max-height: 40px;
+    width: auto;
+    height: auto;
+}
+
+/* Tăng clickable area cho nút menu */
+#vgtechMenuModal .modal-body a {
+    text-decoration: none;
+}
+
+#vgtechMenuModal .modal-content{
+  position: relative;
+}
+
+.vgtech-theme-close{
+  position: absolute;
+  bottom: 5%;
+  line-height: .8;
+    align-items: center;
+    width: 45px !important;
+    height: 45px !important;
+    padding: 10px !important;
+    background-color: transparent !important;
+    color: var(--e-global-color-primary) !important;
+}
+
+/* Nếu muốn nội dung modal sáng hơn/nhẹ hơn */
+/* Base state: ẩn */
+#swup-loader {
+  position: fixed;
+  inset: 0;
+  display: flex;              /* luôn sẵn layout (để transition mượt) */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 1);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+#swup-loader img { width: 80px; height: 80px; }
+
+/* Khi Swup bắt đầu transition, Swup sẽ thêm class vào <html> */
+html.is-changing #swup-loader,
+html.is-leaving #swup-loader {
+  opacity: 1;
+  pointer-events: all;
+}

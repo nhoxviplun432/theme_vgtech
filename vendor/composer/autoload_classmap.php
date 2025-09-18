@@ -9,6 +9,7 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Vgtech\\ThemeVgtech\\App' => $baseDir . '/class/App.php',
     'Vgtech\\ThemeVgtech\\Hookable' => $baseDir . '/class/Hookable.php',
+    'Vgtech\\ThemeVgtech\\Navigation\\Nav' => $baseDir . '/class/Navigation/Nav.php',
     'Vgtech\\ThemeVgtech\\Providers\\AssetsProvider' => $baseDir . '/class/Providers/AssetsProvider.php',
     'Vgtech\\ThemeVgtech\\Providers\\SwupProvider' => $baseDir . '/class/Providers/SwupProvider.php',
     'Vgtech\\ThemeVgtech\\Providers\\ThemeSupportProvider' => $baseDir . '/class/Providers/ThemeSupportProvider.php',

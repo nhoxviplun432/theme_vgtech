@@ -28,6 +28,7 @@ class ComposerStaticInit8433f96e8931363f334e17b734740790
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Vgtech\\ThemeVgtech\\App' => __DIR__ . '/../..' . '/class/App.php',
         'Vgtech\\ThemeVgtech\\Hookable' => __DIR__ . '/../..' . '/class/Hookable.php',
+        'Vgtech\\ThemeVgtech\\Navigation\\Nav' => __DIR__ . '/../..' . '/class/Navigation/Nav.php',
         'Vgtech\\ThemeVgtech\\Providers\\AssetsProvider' => __DIR__ . '/../..' . '/class/Providers/AssetsProvider.php',
         'Vgtech\\ThemeVgtech\\Providers\\SwupProvider' => __DIR__ . '/../..' . '/class/Providers/SwupProvider.php',
         'Vgtech\\ThemeVgtech\\Providers\\ThemeSupportProvider' => __DIR__ . '/../..' . '/class/Providers/ThemeSupportProvider.php',

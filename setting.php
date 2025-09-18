@@ -85,32 +85,3 @@ add_action('after_setup_theme', function () {
         (new \Vgtech\ThemeVgtech\App())->boot();
     }
 });
-
-
-function vgtech_is_elementor_page() {
-    if (function_exists('\Elementor\Plugin')) {
-        $post_id = get_queried_object_id();
-        return \Elementor\Plugin::$instance->db->is_built_with_elementor($post_id);
-    }
-    return false;
-}
-
-
-add_action('wp_print_scripts', function () {
-    if (is_admin()) return;
-
-    if (!vgtech_is_elementor_page()) {
-        // Cẩn thận: chỉ dequeue khi chắc chắn trang này không cần
-        $handles = [
-            'elementor-frontend',        // Elementor free
-            'elementor-common',          // Common
-            'elementor-pro-frontend',    // Elementor Pro
-            'elementor-sticky',          // ví dụ các module con
-        ];
-        foreach ($handles as $h) {
-            if (wp_script_is($h, 'enqueued')) wp_dequeue_script($h);
-        }
-        // Giữ lại jQuery & jQuery UI của WP nếu bạn cần draggable/datepicker nội bộ
-        // KHÔNG dequeue 'jquery', 'jquery-ui-core', 'jquery-ui-mouse', 'jquery-ui-draggable' nếu site bạn dùng.
-    }
-}, 100);
