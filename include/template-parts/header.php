@@ -34,33 +34,74 @@
 <!-- Modal fullscreen menu (nằm ngoài #swup nhưng bên trong <body>) -->
 <div class="modal fade" id="vgtechMenuModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content bg-light">
+        <div class="modal-content">
             <div class="modal-body d-flex flex-column justify-content-center align-items-center text-center">
-                <?php
-                $walker = null;
-                if ( class_exists('\Vgtech\ThemeVgtech\Navigation\Nav') ) {
-                    $walker = new \Vgtech\ThemeVgtech\Navigation\Nav();
-                } else {
-                    error_log('[VGTECH] Walker class not found: \\Vgtech\\ThemeVgtech\\Navigation\\Nav');
-                }
+                <div class="container d-flex flex-column justify-content-center align-items-center py-5">
+                    <div class="vgtech-menu-wrapper mb-5 logo-vgtech-menu">
+                        <?php
+                            if (function_exists('the_custom_logo') && has_custom_logo()) {
+                                the_custom_logo();
+                            } else {
+                                bloginfo('name');
+                            }
+                        ?>
+                    </div>
+                    <?php
+                    $walker = null;
+                    if ( class_exists('\Vgtech\ThemeVgtech\Navigation\Nav') ) {
+                        $walker = new \Vgtech\ThemeVgtech\Navigation\Nav();
+                    } else {
+                        error_log('[VGTECH] Walker class not found: \\Vgtech\\ThemeVgtech\\Navigation\\Nav');
+                    }
 
-                // Nếu chưa có helper vgtech_get_primary_menu_args(), có thể truyền mảng trực tiếp cho wp_nav_menu.
-                echo wp_nav_menu( function_exists('vgtech_get_primary_menu_args') ? vgtech_get_primary_menu_args([
-                    'theme_location' => 'primary',
-                    'container'      => false,
-                    'menu_class'     => 'navbar-nav list-unstyled d-grid gap-3 fs-3 fw-medium m-0 vgtech-menu',
-                    'depth'          => 3,
-                    'walker'         => $walker,
-                    'echo'           => true,
-                ]) : [
-                    'theme_location' => 'primary',
-                    'container'      => false,
-                    'menu_class'     => 'navbar-nav list-unstyled d-grid gap-3 fs-3 fw-medium m-0 vgtech-menu',
-                    'depth'          => 3,
-                    'walker'         => $walker,
-                    'echo'           => true,
-                ] );
-                ?>
+                    // Nếu chưa có helper vgtech_get_primary_menu_args(), có thể truyền mảng trực tiếp cho wp_nav_menu.
+                    echo wp_nav_menu( function_exists('vgtech_get_primary_menu_args') ? vgtech_get_primary_menu_args([
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'menu_class'     => 'navbar-nav list-unstyled d-grid gap-3 fs-3 fw-medium m-0 vgtech-menu',
+                        'depth'          => 3,
+                        'walker'         => $walker,
+                        'echo'           => true,
+                    ]) : [
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'menu_class'     => 'navbar-nav list-unstyled d-grid gap-3 fs-3 fw-medium m-0 vgtech-menu',
+                        'depth'          => 3,
+                        'walker'         => $walker,
+                        'echo'           => true,
+                    ] );
+                    ?>
+                </div>
+                <div class="container d-flex justify-content-center vgtech-socials gap-4">
+                    <!-- List social icons -->
+                    <ul class="list-inline d-flex justify-content-center gap-3 my-3">
+                        <li class="list-inline-item">
+                            <a href="https://facebook.com" target="_blank" class="text-decoration-none text-light fs-4">
+                            <i class="bi bi-facebook"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://twitter.com" target="_blank" class="text-decoration-none text-light fs-4">
+                            <i class="bi bi-twitter-x"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://instagram.com" target="_blank" class="text-decoration-none text-light fs-4">
+                            <i class="bi bi-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://linkedin.com" target="_blank" class="text-decoration-none text-light fs-4">
+                            <i class="bi bi-linkedin"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://youtube.com" target="_blank" class="text-decoration-none text-light fs-4">
+                            <i class="bi bi-youtube"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
                 <button type="button" class="btn btn-outline-dark mt-5 rounded-4 px-4 py-2 vgtech-theme-close"
                         data-bs-dismiss="modal" aria-label="<?php esc_attr_e('Close'); ?>">

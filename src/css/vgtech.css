@@ -13,6 +13,44 @@
   background: transparent;
 } */
 
+#menu-menu.vgtech-menu {
+  width: 100%;
+  text-align: left;
+  max-width: 400px;
+}
+.logo-vgtech-menu{
+    text-align: center;
+}
+.logo-vgtech-menu img{
+  max-height: 40px;
+  width: auto;
+  height: auto;
+}
+#menu-menu.vgtech-menu li.menu-item a{
+    color: #fff !important;
+}
+#menu-menu.vgtech-menu li.menu-item{
+    width: 100%;
+    padding: 3px 15px;
+    border-radius: 25px;
+    background: linear-gradient(to right, #5532ff 50%, #c337ff);
+    background-position: top left;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-blend-mode: normal;
+    border: 2px solid #8cb4ff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+#menu-menu.vgtech-menu li.menu-item:hover{
+    box-shadow: 0 0 15px -3px #8cb4ff, inset 0 5px 20px -7px #2b1980;
+    color: #fff;
+    border-color: #fff;
+}
+.dropdown-item:focus, .dropdown-item:hover {
+  background-color: transparent !important;
+}
+
 /* icon mặc định */
 .navbar-nav .nav-vgtech .bi {
   display: inline-block;
@@ -21,8 +59,8 @@
 }
 
 button.nav-vgtech{
-  width: 22px;
-  height: 22px;
+  width: 27px;
+  height: 27px;
   line-height: 1;
   background: transparent;
   color: var(--e-global-color-primary);
@@ -37,47 +75,49 @@ button.nav-vgtech{
 .navbar-nav .dropdown-menu {
   border-radius: .5rem;
   border: 0;
-  box-shadow: 0 8px 20px rgba(0,0,0,.1);
-  animation: fadeIn .25s ease;
+  animation: fadeIn .5s ease;
   margin-top: .5rem;
+  position: absolute;
+  right: -40px;
+  width: 100%;
+  background: transparent !important;
 }
-
-/* Hover item đẹp hơn */
-.navbar-nav .dropdown-item:hover {
-  background-color: #f8f9fa;
-  color: var(--bs-primary);
+.navbar-nav .dropdown-menu .menu-item{
+  margin-bottom: 10px;
 }
 
 /* Canh hàng ngang link + caret (ở cấp 0) */
-.navbar-nav .nav-item > .d-flex .nav-link {
+.navbar-nav .nav-item .nav-link {
   padding-right: 0;
+  font-size: 18px !important;
 }
 
 .navbar .custom-logo {
-    max-height: 40px;
-    width: auto;
-    height: auto;
+	max-height: 40px;
+	width: auto;
+	height: auto;
 }
 
 /* Tăng clickable area cho nút menu */
 #vgtechMenuModal .modal-body a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 #vgtechMenuModal .modal-content{
   position: relative;
+  background: linear-gradient(to right, #1b104f 50%, #703a87);
 }
 
 .vgtech-theme-close{
   position: absolute;
   bottom: 5%;
   line-height: .8;
-    align-items: center;
-    width: 45px !important;
-    height: 45px !important;
-    padding: 10px !important;
-    background-color: transparent !important;
-    color: var(--e-global-color-primary) !important;
+  align-items: center;
+  width: 45px !important;
+  height: 45px !important;
+  padding: 10px !important;
+  background-color: transparent !important;
+  color: var(--e-global-color-primary) !important;
 }
 
 /* Nếu muốn nội dung modal sáng hơn/nhẹ hơn */

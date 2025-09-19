@@ -58,12 +58,12 @@ class Nav extends Walker_Nav_Menu {
 
 
             if ($depth === 0) {
-                $output .= '<div class="d-flex align-items-center">';
+                $output .= '<div class="d-flex justify-content-between gap-2 align-items-center">';
                 $output .= '<a' . $attributes . '>' . $title . '</a>';
                 $output .= $caret_button;
                 $output .= '</div>';
             } else {
-                $output .= '<div class="d-flex align-items-center px-3 py-2 dropdown-split">';
+                $output .= '<div class="d-flex jjustify-content-between px-3 py-2 dropdown-split">';
                 $output .= '<a' . $attributes . '>' . $title . '</a>';
                 $output .= $caret_button;
                 $output .= '</div>';
