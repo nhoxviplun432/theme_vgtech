@@ -28,7 +28,7 @@ p, li, a, span, div {
   background: transparent;
 } */
 
-#menu-menu.vgtech-menu {
+.vgtech-menu {
   width: 100%;
   text-align: left;
   max-width: 400px;
@@ -42,10 +42,10 @@ p, li, a, span, div {
   width: auto;
   height: auto;
 }
-#menu-menu.vgtech-menu li.menu-item a{
+.vgtech-menu li.menu-item a{
     color: #fff !important;
 }
-#menu-menu.vgtech-menu li.menu-item a{
+.vgtech-menu li.menu-item a{
     width: 100%;
     padding: 3px 15px;
     border-radius: 25px;
@@ -58,7 +58,7 @@ p, li, a, span, div {
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
-#menu-menu.vgtech-menu li.menu-item a:hover{
+.vgtech-menu li.menu-item a:hover{
     box-shadow: 0 0 15px -3px #8cb4ff, inset 0 5px 20px -7px #2b1980;
     color: #fff;
     border-color: #fff;
