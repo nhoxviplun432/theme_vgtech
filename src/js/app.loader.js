@@ -1,49 +1,74 @@
-(function () {
-  if (document.body.classList.contains('elementor-page') ||
-      document.body.classList.contains('elementor-editor-active')) return;
+import Swup from "swup";
 
-  var swup;
-  try {
-    var sameOrigin = location.origin.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-    var linkSelector = [
-      'a[href^="/"]',
-      'a[href^="./"]',
-      'a[href^="../"]',
-      'a[href^="' + sameOrigin + '"]'
-    ].join(':not([data-no-swup]):not([target="_blank"]), ') +
-      ':not([data-no-swup]):not([target="_blank"])';
+import { initVgtech } from "./vgtech.js";
 
-    swup = new Swup({
+// Guard: tránh khởi tạo 2 lần
+if (!window.__VGTECH_SWUP_BOOTED__) {
+  window.__VGTECH_SWUP_BOOTED__ = true;
+
+  const html = document.documentElement;
+  const body = document.body;
+
+  html.classList.add('preload');
+
+  // Elementor → skip Swup
+  if (body.classList.contains('elementor-page') || body.classList.contains('elementor-editor-active')) {
+    requestAnimationFrame(() => {
+      html.classList.add('done');
+      html.classList.remove('preload');
+    });
+  } else {
+    // Khởi tạo Swup
+    const swup = new Swup({
       containers: ['#swup'],
-      linkSelector: linkSelector
+      linkSelector: 'a[href^="/"]:not([data-no-swup]):not([target="_blank"]), a[href^="./"]:not([data-no-swup]):not([target="_blank"]), a[href^="../"]:not([data-no-swup]):not([target="_blank"]), a[href^="' + location.origin + '"]:not([data-no-swup]):not([target="_blank"])',
     });
-  } catch (e) {
-    // Fallback: rời trang thật thì trước khi unload vẫn bật loader (không bắt được CSS class)
-    window.addEventListener('beforeunload', function () {
-      var el = document.getElementById('swup-loader');
-      if (el) el.style.opacity = '1';
+
+    // Lần đầu init
+    initVgtech();
+
+    // Hoàn tất hiệu ứng load
+    requestAnimationFrame(() => {
+      html.classList.add('done');
+      html.classList.remove('preload');
     });
-    return;
-  }
 
-  function initLocal(){/* re-bind JS nội bộ nếu cần */}
-  initLocal();
-
-  // Nếu vẫn muốn hook event cho init lại JS sau replace
-  if (typeof swup.on === 'function') {
-    swup.on('contentReplaced', function () {
-      if (document.body.classList.contains('elementor-page')) {
-        try { swup.destroy(); } catch(e){}
-        return;
-      }
-      initLocal();
+    // Sau mỗi lần replace
+    swup.hooks.on('page:view', () => {
+      initVgtech();
     });
   }
-  document.addEventListener('swup:content:replace', function () {
-    if (document.body.classList.contains('elementor-page')) {
-      try { swup && swup.destroy && swup.destroy(); } catch(e){}
-      return;
-    }
-    initLocal();
+}
+
+// ====================== A11Y cho Modal Menu ======================
+(function setupMenuModalA11y() {
+  const modalEl = document.getElementById('vgtechMenuModal');
+  if (!modalEl || !window.bootstrap) return;
+
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl, { backdrop: true, focus: true });
+
+  modalEl.addEventListener('show.bs.modal', () => {
+    modalEl.removeAttribute('inert');
+    modalEl.removeAttribute('aria-hidden');
+  });
+
+  modalEl.addEventListener('hide.bs.modal', () => {
+    if (modalEl.contains(document.activeElement)) document.activeElement.blur();
+  });
+
+  modalEl.addEventListener('hidden.bs.modal', () => {
+    modalEl.setAttribute('inert', '');
+    modalEl.setAttribute('aria-hidden', 'true');
+    const opener = document.querySelector('[data-bs-toggle="modal"][data-bs-target="#vgtechMenuModal"]');
+    if (opener) opener.focus();
+  });
+
+  if (!modalEl.classList.contains('show')) {
+    modalEl.setAttribute('inert', '');
+    modalEl.setAttribute('aria-hidden', 'true');
+  }
+
+  document.addEventListener('swup:will-replace-content', () => {
+    if (modalEl.classList.contains('show')) modal.hide();
   });
 })();

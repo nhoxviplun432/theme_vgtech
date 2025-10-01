@@ -1,89 +1,72 @@
-// vgtech.js
-document.addEventListener('DOMContentLoaded', function () {
-    function closePopupIfOpen() {
-        var modalEl = document.getElementById('vgtechMenuModal');
-        if (modalEl && modalEl.classList.contains('show')) {
-        if (window.bootstrap && typeof window.bootstrap.Modal === 'function') {
-            // Nếu bootstrap.bundle.js đã load thì dùng hide() → có fade sẵn
-            var inst = window.bootstrap.Modal.getInstance(modalEl);
-            if (inst) {
-                inst.hide();
-            } else {
-                new window.bootstrap.Modal(modalEl).hide();
-            }
-        } else {
-            // Fallback: tự tạo hiệu ứng fade-out
-            modalEl.style.transition = 'opacity 1s ease';
-            modalEl.style.opacity = '1';
-            requestAnimationFrame(function () {
-                modalEl.style.opacity = '0';
-            });
-            setTimeout(function () {
-            modalEl.classList.remove('show');
-            modalEl.style.display = 'none';
-            modalEl.style.opacity = '';
-            document.body.classList.remove('modal-open');
-            document.querySelectorAll('.modal-backdrop').forEach(function (b) {
-                b.remove();
-            });
-            }, 300); // khớp với 0.3s ở trên
-        }
-        }
+// Logic nội bộ cho menu và popup
+export const initVgtech = () => {
+    console.log('Init JS sau khi load Swup');
+    initDropdowns();
+    closePopupIfOpen(); // luôn đóng popup khi chuyển trang
+};
+
+// ====================== POPUP HANDLER ======================
+const closePopupIfOpen = () => {
+    const modalEl = document.getElementById('vgtechMenuModal');
+    if (!modalEl || !modalEl.classList.contains('show')) return;
+
+    if (window.bootstrap?.Modal) {
+        const inst = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
+        inst.hide();
+    } else {
+        modalEl.classList.remove('show');
+        modalEl.style.display = 'none';
+        document.body.classList.remove('modal-open');
+        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
     }
+};
 
-    // Swup: khi bắt đầu visit → đóng popup
-    document.addEventListener('swup:visit:start', closePopupIfOpen);
+// ====================== DROPDOWN HANDLER ======================
+const initDropdowns = () => {
+  document.querySelectorAll('.nav-vgtech[data-bs-toggle="dropdown"]').forEach(btn => {
+    btn.removeEventListener('click', toggleDropdown);
+    btn.addEventListener('click', toggleDropdown);
+  });
 
-    // Click vào link trong popup menu → đóng popup
-    document.addEventListener('click', function (e) {
-        if (e.target && e.target.closest && e.target.closest('#vgtechMenuModal a[href]')) {
-        closePopupIfOpen();
-        }
-    });
-});
+  document.removeEventListener('click', closeDropdownsOutside);
+  document.addEventListener('click', closeDropdownsOutside);
+};
 
-document.addEventListener('click', function(e) {
-    // Chỉ xử lý khi bấm đúng nút caret
-    const caretBtn = e.target.closest('.nav-vgtech[data-bs-toggle="dropdown"]');
-    if (!caretBtn) return;
+const toggleDropdown = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
 
-    e.preventDefault();
-    e.stopPropagation();
+  const caretBtn = e.currentTarget;
+  const dropdownLi = caretBtn.closest('.dropdown');
+  if (!dropdownLi) return;
 
-    // Tìm dropdown parent gần nhất
-    const dropdownLi = caretBtn.closest('.dropdown');
-    if (!dropdownLi) return;
+  dropdownLi.parentElement?.querySelectorAll(':scope > .dropdown.show').forEach(sib => {
+    if (sib !== dropdownLi) sib.classList.remove('show');
+  });
 
-    // Đóng các dropdown anh em (tùy thích)
-    const siblings = dropdownLi.parentElement?.querySelectorAll(':scope > .dropdown.show');
-    if (siblings) {
-        siblings.forEach(sib => { if (sib !== dropdownLi) sib.classList.remove('show'); });
+  dropdownLi.classList.toggle('show');
+  const expanded = dropdownLi.classList.contains('show');
+  caretBtn.setAttribute('aria-expanded', expanded);
+
+  const menu = dropdownLi.querySelector(':scope > .dropdown-menu');
+  if (menu) menu.classList.toggle('show', expanded);
+};
+
+const closeDropdownsOutside = (e) => {
+  document.querySelectorAll('.navbar .dropdown.show').forEach(li => {
+    if (!li.contains(e.target)) {
+      li.classList.remove('show');
+      const btn = li.querySelector(':scope .nav-vgtech');
+      const menu = li.querySelector(':scope > .dropdown-menu');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+      if (menu) menu.classList.remove('show');
     }
+  });
+};
 
-    // Toggle theo cách thủ công nếu cần (nhưng Bootstrap 5 sẽ xử lý nếu đã load js)
-    dropdownLi.classList.toggle('show');
-
-    // Cập nhật aria-expanded cho caret
-    const expanded = dropdownLi.classList.contains('show');
-    caretBtn.setAttribute('aria-expanded', expanded.toString());
-
-    // Tìm .dropdown-menu để đặt display
-    const menu = dropdownLi.querySelector(':scope > .dropdown-menu');
-        if (menu) {
-            if (expanded) menu.classList.add('show');
-            else menu.classList.remove('show');
-        }
-});
-
-    // Đóng dropdown khi click ra ngoài (fallback nếu chưa dùng data-bs-auto-close)
-document.addEventListener('click', function(e) {
-    document.querySelectorAll('.navbar .dropdown.show').forEach(li => {
-        if (!li.contains(e.target)) {
-            li.classList.remove('show');
-            const btn = li.querySelector(':scope .nav-caret');
-            const menu = li.querySelector(':scope > .dropdown-menu');
-            if (btn) btn.setAttribute('aria-expanded', 'false');
-            if (menu) menu.classList.remove('show');
-        }
-    });
+// Auto-close popup khi click link bên trong
+document.addEventListener('click', e => {
+  if (e.target.closest('#vgtechMenuModal a[href]')) {
+    closePopupIfOpen();
+  }
 });

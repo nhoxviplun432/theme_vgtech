@@ -13,6 +13,7 @@ export default defineConfig({
         // Build Swup riêng vào assets/swup/...
         'swup/js/app':  resolve(process.cwd(), 'src/js/app.js'),
         'swup/css/app': resolve(process.cwd(), 'src/css/app.css'),
+        'swup/js/loader': resolve(process.cwd(), 'src/js/app.loader.js')
         // (nếu sau này muốn bundle khác vào assets/public, thêm entry kiểu 'public/js/main': 'src/js/main.js')
       },
       output: {

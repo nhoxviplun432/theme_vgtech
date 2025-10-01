@@ -17,28 +17,23 @@ class AssetsProvider implements Hookable
         $theme_url  = trailingslashit( get_stylesheet_directory_uri() );
         $theme_path = trailingslashit( get_stylesheet_directory() );
 
-        // Bootstrap (nếu bạn muốn vẫn dùng)
+        // Bootstrap 5.0.2 CSS
         wp_enqueue_style(
-            'vgtech-bootstrap',
+            'vgtech-bootstrap-css',
             $theme_url . 'assets/bootstrap/css/bootstrap.min.css',
             [],
-            $theme_ver
+            '5.0.2' // ghi rõ version BS để dễ kiểm tra
         );
 
-        // CSS custom riêng (vgtech.css)
+        // CSS custom (cache-busting theo filemtime)
         $css_rel  = 'src/css/vgtech.css';
         $css_url  = $theme_url . $css_rel;
         $css_path = $theme_path . $css_rel;
         $css_ver  = file_exists($css_path) ? filemtime($css_path) : $theme_ver;
 
-        wp_enqueue_style(
-            'vgtech-style',
-            $css_url,
-            [], // ← để [] nếu bạn muốn file này độc lập, không phụ thuộc bootstrap
-            $css_ver
-        );
+        wp_enqueue_style('vgtech-style', $css_url, ['vgtech-bootstrap-css'], $css_ver);
 
-        // Bootstrap Icons
+        // Bootstrap Icons (không cần JS)
         wp_enqueue_style(
             'bootstrap-icons',
             'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
@@ -46,16 +41,16 @@ class AssetsProvider implements Hookable
             '1.11.3'
         );
 
-        // Bootstrap JS
+        // Bootstrap 5.0.2 JS (bundle có Popper)
         wp_enqueue_script(
-            'vgtech-bootstrap',
+            'vgtech-bootstrap-js',
             $theme_url . 'assets/bootstrap/js/bootstrap.bundle.min.js',
-            [],
-            $theme_ver,
+            [],           // BS5 không phụ thuộc jQuery
+            '5.0.2',
             true
         );
 
-        // JS custom riêng (vgtech.js)
+        // JS custom (phụ thuộc BS5 để chắc chắn load sau)
         $js_rel  = 'src/js/vgtech.js';
         $js_url  = $theme_url . $js_rel;
         $js_path = $theme_path . $js_rel;
@@ -64,41 +59,51 @@ class AssetsProvider implements Hookable
         wp_enqueue_script(
             'vgtech-theme',
             $js_url,
-            ['vgtech-bootstrap'], // ← để [] nếu bạn muốn JS này độc lập
+            ['vgtech-bootstrap-js'],
             $js_ver,
             true
         );
+
+
+        // (tùy chọn) defer cho JS custom nếu bạn muốn
+        wp_script_add_data('vgtech-theme', 'strategy', 'defer');
     }
+
 
 
 
     public function addSwupAttributes($tag, $handle, $src)
     {
-        $handles_to_persist = [
-            'vgtech-swup',              // bundle của bạn
-            'wc-order-attribution',     // WooCommerce Order Attribution
+        $persist_handles = [
+            'vgtech-swup',          // swup bundle
+            'wc-order-attribution', // Woo attribution
         ];
 
-        if (in_array($handle, $handles_to_persist, true)) {
+        // Cho các script cần persist
+        if (in_array($handle, $persist_handles, true)) {
             $tag = str_replace(
                 '<script ',
                 '<script data-swup-persist data-swup-ignore-script ',
                 $tag
             );
-
-            // riêng vgtech-swup thì thêm type="module"
-            if ($handle === 'vgtech-swup') {
-                $tag = str_replace(
-                    '<script ',
-                    '<script type="module" ',
-                    $tag
-                );
-            }
         }
 
-        // bắt thêm script WooCommerce nếu không chắc handle
+        // Riêng file JS theme của bạn → type="module"
+        if ($handle === 'vgtech-theme') {
+            $tag = str_replace(
+                '<script ',
+                '<script type="module" ',
+                $tag
+            );
+        }
+
+        // Bắt thêm order-attribution nếu load với handle khác
         if (strpos($src, 'order-attribution') !== false) {
-            $tag = str_replace('<script ', '<script data-swup-persist data-swup-ignore-script ', $tag);
+            $tag = str_replace(
+                '<script ',
+                '<script data-swup-persist data-swup-ignore-script ',
+                $tag
+            );
         }
 
         return $tag;

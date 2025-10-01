@@ -1,5 +1,18 @@
 /* Tuỳ chọn: logo nhỏ gọn hơn ở mobile */
 /* Toàn bộ scrollbar */
+
+html.is-animating .transition-fade { opacity: .6; transition: opacity .25s ease; }
+html.is-leaving   .transition-fade { opacity: 0;   }
+
+/* Hiệu ứng lần đầu vào trang */
+html.preload .transition-fade { 
+  opacity: 0;                /* bắt đầu mờ */
+  transition: opacity .35s;  /* thời gian bạn muốn */
+}
+html.preload.done .transition-fade {
+  opacity: 1;                /* fade-in lên */
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -10,6 +23,43 @@
   width: 0px; /* độ rộng */
 }
 
+/* Reset nhỏ */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Header cố định trên */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* nổi trên nội dung */
+  background: #fff; /* đổi màu nền để che */
+}
+
+/* Footer cố định dưới */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #111; /* ví dụ: màu nền tối */
+  color: #fff;
+}
+
+/* Main scrollable area */
+main.vgtech-container {
+  min-height: 100%;
+  overflow-y: auto;
+  /* Đẩy nội dung xuống dưới header và chừa chỗ cho footer */
+  padding-top: var(--header-h);
+  padding-bottom: var(--footer-h);
+}
+
+
 h1, h2, h3, h4, h5, h6 {
     font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
   font-weight: var( --e-global-typography-primary-font-weight );
@@ -17,10 +67,6 @@ h1, h2, h3, h4, h5, h6 {
 p, li, a, span, div {
   font-weight: var(--e-global-typography-text-font-family), Sans-serif;
   font-family: var(--e-global-typography-text-font-weight);
-}
-
-#swup{
-  min-height: 86vh;
 }
 /* .navbar .nav-caret {
   line-height: 1;

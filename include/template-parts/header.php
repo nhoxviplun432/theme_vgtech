@@ -5,7 +5,7 @@
   <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/public/media/loading.gif' ); ?>" alt="Loading...">
 </div>
 
-<header class="border-0 bg-transparent">
+<header class="border-0">
     <nav class="navbar py-3">
         <div class="container d-flex align-items-center justify-content-between">
             <a class="navbar-brand m-0 p-0" href="<?php echo esc_url(home_url('/')); ?>">
