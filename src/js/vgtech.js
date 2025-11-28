@@ -1,72 +1,45 @@
-// Logic nội bộ cho menu và popup
-export const initVgtech = () => {
-    console.log('Init JS sau khi load Swup');
-    initDropdowns();
-    closePopupIfOpen(); // luôn đóng popup khi chuyển trang
-};
+// ====================== FIX BODY HEIGHT ======================
+export function fixBodyHeight() {
+  const height = window.innerHeight;
+  document.body.style.height = height + 'px';
+}
 
-// ====================== POPUP HANDLER ======================
-const closePopupIfOpen = () => {
-    const modalEl = document.getElementById('vgtechMenuModal');
-    if (!modalEl || !modalEl.classList.contains('show')) return;
-
-    if (window.bootstrap?.Modal) {
-        const inst = window.bootstrap.Modal.getInstance(modalEl) || new window.bootstrap.Modal(modalEl);
-        inst.hide();
-    } else {
-        modalEl.classList.remove('show');
-        modalEl.style.display = 'none';
-        document.body.classList.remove('modal-open');
-        document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+// ====================== SAFE CUSTOM ELEMENT DEFINE ======================
+if (window.customElements) {
+  const originalDefine = window.customElements.define;
+  window.customElements.define = function (name, constructor, options) {
+    if (customElements.get(name)) {
+      console.warn(`[Turbo] Skipping duplicate custom element registration: ${name}`);
+      return;
     }
-};
+    originalDefine.call(this, name, constructor, options);
+  };
+}
 
-// ====================== DROPDOWN HANDLER ======================
-const initDropdowns = () => {
-  document.querySelectorAll('.nav-vgtech[data-bs-toggle="dropdown"]').forEach(btn => {
-    btn.removeEventListener('click', toggleDropdown);
-    btn.addEventListener('click', toggleDropdown);
+// ====================== MODAL CLEANUP ======================
+export function cleanUpBootstrapModals() {
+  const modals = document.querySelectorAll(".modal.show");
+  const Modal = window.bootstrap?.Modal;
+
+  modals.forEach((modalEl) => {
+    const inst = Modal?.getInstance(modalEl);
+    inst?.hide?.();
+
+    modalEl.classList.remove("show");
+    modalEl.style.display = "none";
   });
 
-  document.removeEventListener('click', closeDropdownsOutside);
-  document.addEventListener('click', closeDropdownsOutside);
-};
+  document.body.classList.remove("modal-open");
+  document.body.style.removeProperty("padding-right");
+}
 
-const toggleDropdown = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+// ====================== KHỞI TẠO CHÍNH ======================
+export function initVgtech() {
+  cleanUpBootstrapModals();
+  fixBodyHeight();
+}
 
-  const caretBtn = e.currentTarget;
-  const dropdownLi = caretBtn.closest('.dropdown');
-  if (!dropdownLi) return;
-
-  dropdownLi.parentElement?.querySelectorAll(':scope > .dropdown.show').forEach(sib => {
-    if (sib !== dropdownLi) sib.classList.remove('show');
-  });
-
-  dropdownLi.classList.toggle('show');
-  const expanded = dropdownLi.classList.contains('show');
-  caretBtn.setAttribute('aria-expanded', expanded);
-
-  const menu = dropdownLi.querySelector(':scope > .dropdown-menu');
-  if (menu) menu.classList.toggle('show', expanded);
-};
-
-const closeDropdownsOutside = (e) => {
-  document.querySelectorAll('.navbar .dropdown.show').forEach(li => {
-    if (!li.contains(e.target)) {
-      li.classList.remove('show');
-      const btn = li.querySelector(':scope .nav-vgtech');
-      const menu = li.querySelector(':scope > .dropdown-menu');
-      if (btn) btn.setAttribute('aria-expanded', 'false');
-      if (menu) menu.classList.remove('show');
-    }
-  });
-};
-
-// Auto-close popup khi click link bên trong
-document.addEventListener('click', e => {
-  if (e.target.closest('#vgtechMenuModal a[href]')) {
-    closePopupIfOpen();
-  }
-});
+// ====================== GẮN GLOBAL ======================
+window.initVgtech = initVgtech;
+window.cleanUpBootstrapModals = cleanUpBootstrapModals;
+window.fixBodyHeight = fixBodyHeight;

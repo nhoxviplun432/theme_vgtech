@@ -1,8 +1,10 @@
 /* Tuỳ chọn: logo nhỏ gọn hơn ở mobile */
 /* Toàn bộ scrollbar */
+.transition-fade { opacity: 1; transition: opacity .3s ease; }
+html.is-leaving .transition-fade { opacity: 0; }
 
-html.is-animating .transition-fade { opacity: .6; transition: opacity .25s ease; }
-html.is-leaving   .transition-fade { opacity: 0;   }
+/* html.is-animating .transition-fade { opacity: .6; transition: opacity .25s ease; }
+html.is-leaving   .transition-fade { opacity: 0;   } */
 
 /* Hiệu ứng lần đầu vào trang */
 html.preload .transition-fade { 
@@ -23,42 +25,6 @@ html.preload.done .transition-fade {
   width: 0px; /* độ rộng */
 }
 
-/* Reset nhỏ */
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
-/* Header cố định trên */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000; /* nổi trên nội dung */
-  background: #fff; /* đổi màu nền để che */
-}
-
-/* Footer cố định dưới */
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  background: #111; /* ví dụ: màu nền tối */
-  color: #fff;
-}
-
-/* Main scrollable area */
-main.vgtech-container {
-  min-height: 100%;
-  overflow-y: auto;
-  /* Đẩy nội dung xuống dưới header và chừa chỗ cho footer */
-  padding-top: var(--header-h);
-  padding-bottom: var(--footer-h);
-}
-
 
 h1, h2, h3, h4, h5, h6 {
     font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
@@ -73,98 +39,17 @@ p, li, a, span, div {
   border: 0;
   background: transparent;
 } */
-
-.vgtech-menu {
-  width: 100%;
-  text-align: left;
-  max-width: 400px;
-}
-
-.logo-vgtech-menu{
-    text-align: center;
-}
-.logo-vgtech-menu img{
-  max-height: 40px;
-  width: auto;
-  height: auto;
-}
-.vgtech-menu li.menu-item a{
-    color: #fff !important;
-}
-.vgtech-menu li.menu-item a{
-    width: 100%;
-    padding: 3px 15px;
-    border-radius: 25px;
-    background: linear-gradient(to right, #5532ff 50%, #c337ff);
-    background-position: top left;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-blend-mode: normal;
-    border: 2px solid #8cb4ff;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
-.vgtech-menu li.menu-item a:hover{
-    box-shadow: 0 0 15px -3px #8cb4ff, inset 0 5px 20px -7px #2b1980;
-    color: #fff;
-    border-color: #fff;
-}
-.dropdown-item:focus, .dropdown-item:hover {
-  background-color: transparent !important;
-}
-
-/* icon mặc định */
-.navbar-nav .nav-vgtech .bi {
-  display: inline-block;
-  transition: transform .25s ease ;
-  transform: rotate(0deg) !important;
-}
-
-button.nav-vgtech{
-  width: 27px;
-  height: 27px;
-  line-height: 1;
-  background: transparent;
-  color: var(--e-global-color-primary);
-  position: absolute;
-  right: 10px;
-}
-
-/* khi menu mở (Bootstrap tự set aria-expanded="true" trên button) */
-.navbar-nav .nav-vgtech[aria-expanded="true"] .bi {
-  transform: rotate(180deg) !important;
-}
-
-/* Dropdown menu style */
-.navbar-nav .dropdown-menu {
-  border-radius: .5rem;
-  border: 0;
-  animation: fadeIn .5s ease;
-  margin-top: .5rem;
-  position: relative;
-  right: -40px;
-  width: 100%;
-  background: transparent !important;
-}
-.navbar-nav .dropdown-menu .menu-item{
-  margin-bottom: 10px;
-}
-
-/* Canh hàng ngang link + caret (ở cấp 0) */
-.navbar-nav .nav-item .nav-link {
-  padding-right: 0;
-  font-size: 18px !important;
-}
-
-.navbar .custom-logo {
-	max-height: 40px;
-	width: auto;
-	height: auto;
-}
-
 /* Tăng clickable area cho nút menu */
 #vgtechMenuModal .modal-body a {
 	text-decoration: none;
+}
+
+#vgtechMenuModal.modal.fade .modal-dialog {
+  transition: transform .3s ease-out;
+  transform: translate(0, -50px);
+}
+#vgtechMenuModal.modal.show .modal-dialog {
+  transform: none;
 }
 
 #vgtechMenuModal .modal-content{
@@ -182,27 +67,4 @@ button.nav-vgtech{
   padding: 10px !important;
   background-color: transparent !important;
   color: var(--e-global-color-primary) !important;
-}
-
-/* Nếu muốn nội dung modal sáng hơn/nhẹ hơn */
-/* Base state: ẩn */
-#swup-loader {
-  position: fixed;
-  inset: 0;
-  display: flex;              /* luôn sẵn layout (để transition mượt) */
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 1);
-  z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease;
-}
-#swup-loader img { width: 80px; height: 80px; }
-
-/* Khi Swup bắt đầu transition, Swup sẽ thêm class vào <html> */
-html.is-changing #swup-loader,
-html.is-leaving #swup-loader {
-  opacity: 1;
-  pointer-events: all;
 }

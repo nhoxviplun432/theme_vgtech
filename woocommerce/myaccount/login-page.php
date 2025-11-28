@@ -14,7 +14,7 @@ do_action('woocommerce_before_customer_login_form'); ?>
 	<div class="col-2 col-form-login" id="customer_login">
 		<h2 class="title-login"><?php esc_html_e('Đăng nhập', 'woocommerce'); ?></h2>
 		<p style="display: none;">Do not have an account yet? <a style="color:#1d78d0;" href="<?php echo home_url(); ?>/account/?account_login=register">Sign Up</a></p>
-		<form class="woocommerce-form woocommerce-form-login login" method="post">
+		<form class="woocommerce-form woocommerce-form-login login" method="post" data-turbo="false">
 
 			<?php do_action('woocommerce_login_form_start'); ?>
 

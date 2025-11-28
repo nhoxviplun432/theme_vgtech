@@ -9,9 +9,9 @@ return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Vgtech\\ThemeVgtech\\App' => $baseDir . '/class/App.php',
     'Vgtech\\ThemeVgtech\\Hookable' => $baseDir . '/class/Hookable.php',
-    'Vgtech\\ThemeVgtech\\Navigation\\Nav' => $baseDir . '/class/Navigation/Nav.php',
     'Vgtech\\ThemeVgtech\\Providers\\AssetsProvider' => $baseDir . '/class/Providers/AssetsProvider.php',
-    'Vgtech\\ThemeVgtech\\Providers\\SwupProvider' => $baseDir . '/class/Providers/SwupProvider.php',
-    'Vgtech\\ThemeVgtech\\Providers\\ThemeSupportProvider' => $baseDir . '/class/Providers/ThemeSupportProvider.php',
+    'Vgtech\\ThemeVgtech\\Providers\\SettingProvider' => $baseDir . '/class/Providers/SettingProvider.php',
+    'Vgtech\\ThemeVgtech\\Providers\\ThemeSupportAndChildProvider' => $baseDir . '/class/Providers/ThemeSupportAndChildProvider.php',
+    'Vgtech\\ThemeVgtech\\Providers\\TurboProvider' => $baseDir . '/class/Providers/TurboProvider.php',
     'Vgtech\\ThemeVgtech\\Providers\\WooProvider' => $baseDir . '/class/Providers/WooProvider.php',
 );

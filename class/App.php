@@ -3,9 +3,10 @@ namespace Vgtech\ThemeVgtech;
 
 use Vgtech\ThemeVgtech\Hookable;
 use Vgtech\ThemeVgtech\Providers\AssetsProvider;
-use Vgtech\ThemeVgtech\Providers\ThemeSupportProvider;
+use Vgtech\ThemeVgtech\Providers\ThemeSupportAndChildProvider;
 use Vgtech\ThemeVgtech\Providers\WooProvider;
-use Vgtech\ThemeVgtech\Providers\SwupProvider;
+use Vgtech\ThemeVgtech\Providers\TurboProvider;
+use Vgtech\ThemeVgtech\Providers\SettingProvider;
 
 final class App
 {
@@ -15,9 +16,10 @@ final class App
     public function __construct()
     {
         $this->providers = [
-            new SwupProvider(),
-            new ThemeSupportProvider(),
+            new TurboProvider(),
+            new ThemeSupportAndChildProvider(),
             new AssetsProvider(),
+            new SettingProvider(), // 👈 thêm dòng này
             class_exists('\WooCommerce') ? new WooProvider() : null,
         ];
         $this->providers = array_values(array_filter($this->providers));

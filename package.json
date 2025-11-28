@@ -11,13 +11,10 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"dependencies": {
-		"@swup/body-class-plugin": "^3.3.0",
-		"@swup/head-plugin": "^2.3.1",
-		"@swup/scripts-plugin": "^2.1.0",
-		"swup": "^4.8.2"
-	},
 	"devDependencies": {
 		"vite": "^5.4.10"
+	},
+	"dependencies": {
+		"@hotwired/turbo": "^8.0.18"
 	}
 }

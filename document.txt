@@ -1,0 +1,38 @@
+1. Cấu trúc thư mục theme vgtech: theme_vgtech/
+assets
+    - public 
+        - image (folder chứa ảnh, gif cho giao diện)
+        - media (folder chứa ảnh, gif cho giao diện)
+    - turbo (folder chứa bundle, loader js css của turbo khi chạy npm run build)
+        - js
+        - css
+class
+    - Providers
+        - AssetsProvider.php 
+        - SettingProvider.php
+        - ThemeSupportAndChildProvider.php
+        - TurboProvider.php
+        - WooProvider.php
+    - App.php
+    - Hookable.php
+include
+    - template-parts (folder các file custom giao diện)
+    - helpers.php (Chức năng global cho toàn bộ file)
+node_modules
+src
+    - css
+        - app.css (css custom cho loader)
+        - vgtech.css (css custom theme)
+    - js
+        - turbo.js
+        - vgtech.js
+vendor
+woocommerce
+composer.json
+functions.php
+package-lock.json (file package node module)
+package.json (file package node module)
+screenshot.png (ảnh đại diện theme)
+style.css (css chính, tùy biến)
+vite.config.mjs (vite chạy npm)
+

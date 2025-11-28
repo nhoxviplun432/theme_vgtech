@@ -2,14 +2,17 @@
 // Không cho truy cập trực tiếp
 if (!defined('ABSPATH')) exit;
 
-require_once trailingslashit(__DIR__) . "setting.php";
+$autoloadPaths = [
+    __DIR__ . '/vendor/autoload.php',
+    WP_CONTENT_DIR . '/vendor/autoload.php',
+    ABSPATH . '/vendor/autoload.php',
+];
 
-add_action('wp_print_styles', function () {
-    global $wp_styles;
-    $h = 'vgtech-style';
-    if (isset($wp_styles->registered[$h])) {
-        error_log('vgtech-style ver=' . $wp_styles->registered[$h]->ver);
-    } else {
-        error_log('vgtech-style NOT registered');
+foreach ($autoloadPaths as $path) {
+    if (file_exists($path)) {
+        require_once $path;
+        break;
     }
-}, 9999);
+}
+
+(new \Vgtech\ThemeVgtech\App())->boot();
